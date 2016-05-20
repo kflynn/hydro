@@ -14,3 +14,9 @@ On the other hand, the moment computers have to handle the passage of time, life
 3. Don't leave the controller running when there's nothing to do. (This is kind of unnecessary for this project, since the pump runs on mains current anyway, but it's the right habit to be in for IoT stuff.)
 
 Note that the ESP8266 doesn't actually have a Real Hardware RTC. This implies that we need to sync to NTP more often than we'd otherwise need to, and further implies that we have to take special care to make sure we sync at least once after the first dsleep cycle.
+
+== WiFi Stuff
+
+`init.lua` relies on `wifi.lc` to get WiFi running, but you might note that `wifi.lua` isn't checked in. That's intentional, because otherwise I'd be saving WiFi keys in GitHub.
+
+You can look at `wifi-example.lua` for an example `wifi.lua`.

@@ -51,7 +51,13 @@ end
 if gpio.read(6) == 1 then
   State = loadfile("State.lc")()
   dofile("utils.lc")
+
+  -- NOTE WELL: wifi.lc isn't checked in to avoid committing WiFi keys. enduserconfig
+  -- might be an option here, too.
+  --
+  -- wifi.lc can be basically anything that gets WiFi running. Take your pick.
   dofile("wifi.lc")
+
   dofile("main.lc")
 else
   print("HALT pin low")
