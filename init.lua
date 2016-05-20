@@ -15,24 +15,24 @@ RTCMEM_SLOT_DSLEEPSYNC = 22
 RTCMEM_SLOT_STATE = 23
 
 INITHOOKS = {
-	cold = {
-		function ()
-			print("...reset RTC sync info")
-			rtcmem.write32(RTCMEM_SLOT_LASTSYNC, 0)
-			rtcmem.write32(RTCMEM_SLOT_DSLEEPSYNC, 0)
-		end,
-		function ()
-			-- Prepare the rtcfifo if not already done
-			if rtcfifo.ready() == 0 then
-				print("...prepare FIFO")
+  cold = {
+    function ()
+      print("...reset RTC sync info")
+      rtcmem.write32(RTCMEM_SLOT_LASTSYNC, 0)
+      rtcmem.write32(RTCMEM_SLOT_DSLEEPSYNC, 0)
+    end,
+    function ()
+      -- Prepare the rtcfifo if not already done
+      if rtcfifo.ready() == 0 then
+        print("...prepare FIFO")
         rtcfifo.prepare({ interval_us = to_usec(10) })
       else
         print("...FIFO is ready")       
-			end
-		end
-	},
-	warm = {},
-	both = {}
+      end
+    end
+  },
+  warm = {},
+  both = {}
 }
 
 function to_usec(x) return x * 1000000 end
@@ -52,23 +52,23 @@ if gpio.read(6) == 1 then
   State = loadfile("State.lc")()
   dofile("utils.lc")
   dofile("wifi.lc")
-	dofile("main.lc")
+  dofile("main.lc")
 else
-	print("HALT pin low")
+  print("HALT pin low")
 end
 
 bootkey = "warm"
 
 if node.bootreason() == 1 then
-	bootkey = "cold"
+  bootkey = "cold"
 end
 
 print("BOOT: " .. bootkey)
 
 for idx, hook in ipairs(INITHOOKS[bootkey]) do
-	hook()
+  hook()
 end
 
 for idx, hook in ipairs(INITHOOKS.both) do
-	hook()
+  hook()
 end
