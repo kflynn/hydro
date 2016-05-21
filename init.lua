@@ -36,9 +36,13 @@ INITHOOKS = {
 }
 
 function to_usec(x) return x * 1000000 end
+function to_msec(x) return x * 1000    end
 
 -- function halt_now() rtctime.dsleep_aligned(to_usec(10), to_usec(2)) end
-function halt_now() rtctime.dsleep(to_usec(30)) end
+-- function halt_now() rtctime.dsleep(to_usec(30)) end
+function halt_now()
+  tmr.alarm(3, to_msec(10), tmr.ALARM_SINGLE, function () state:run() end)
+end
 
 function halt()
   print("Sleep at ", rtctime.get())
